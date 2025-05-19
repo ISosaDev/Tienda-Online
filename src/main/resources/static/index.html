@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo API Entregas Cóndor Ltda.</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #0056b3;
+            border-bottom: 2px solid #0056b3;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+        form {
+            display: grid;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="number"],
+        input[type="submit"] {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+         input[type="submit"] {
+            background-color: #0056b3;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        input[type="submit"]:hover {
+            background-color: #004085;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            background-color: #e9e9e9;
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+        }
+        .response {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            white-space: pre-wrap; /* Preserva saltos de línea y espacios */
+            word-wrap: break-word; /* Rompe palabras largas */
+        }
+        .response.success {
+            background-color: #d4edda;
+            color: #155724;
+            border-color: #c3e6cb;
+        }
+        .response.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Demo Interacción API Entregas Cóndor Ltda.</h1>
+
+<div class="container">
+    <h2>Listado de Productos (con Stock)</h2>
+    <ul id="productList">
+        <li>Cargando productos...</li>
+    </ul>
+</div>
+
+<div class="container">
+    <h2>Registrar Entrada de Inventario</h2>
+    <form id="inventoryEntryForm">
+        <label for="inventory_idProducto">ID Producto:</label>
+        <input type="number" id="inventory_idProducto" required><br>
+
+        <label for="inventory_cantidad">Cantidad:</label>
+        <input type="number" id="inventory_cantidad" step="0.01" required><br> <label for="inventory_idProveedor">ID Proveedor:</label>
+        <input type="number" id="inventory_idProveedor" required><br>
+
+        <label for="inventory_referencia">Referencia (Número):</label>
+        <input type="number" id="inventory_referencia" required><br> <label for="inventory_idUsuarioRegistro">ID Usuario Registro (Personal):</label>
+        <input type="number" id="inventory_idUsuarioRegistro" required><br>
+
+        <input type="submit" value="Registrar Entrada">
+    </form>
+    <div id="inventoryResponse" class="response"></div>
+</div>
+
+<div class="container">
+    <h2>Realizar Pedido (1 ítem)</h2>
+    <form id="placeOrderForm">
+        <label for="order_idCliente">ID Cliente:</label>
+        <input type="number" id="order_idCliente" required><br>
+
+        <label for="order_metodoPago">Método Pago:</label>
+        <input type="text" id="order_metodoPago" required><br> <h3>Ítem del Pedido (Simplificado a 1)</h3>
+        <label for="order_idProducto">ID Producto:</label>
+        <input type="number" id="order_idProducto" required><br>
+
+        <label for="order_cantidad">Cantidad:</label>
+        <input type="number" id="order_cantidad" required><br>
+
+        <input type="submit" value="Realizar Pedido">
+    </form>
+    <div id="orderResponse" class="response"></div>
+</div>
+
+
+<script>
+    // URL base de tu API (si corre en el mismo servidor y puerto)
+    const API_BASE_URL = ''; // Deja vacío si corre en el mismo origen, o usa 'http://localhost:8080' si es diferente
+
+    // --- Función para cargar y mostrar productos ---
+    async function loadProducts() {
+        const productList = document.getElementById('productList');
+        productList.innerHTML = '<li>Cargando productos...</li>'; // Mensaje de carga
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/productos`);
+            const products = await response.json(); // Espera la respuesta en formato JSON
+
+            productList.innerHTML = ''; // Limpia el mensaje de carga
+
+            if (products && products.length > 0) {
+                products.forEach(product => {
+                    const li = document.createElement('li');
+                    // Muestra la información del producto y el stock
+                    li.textContent = `ID: ${product.id}, Nombre: ${product.nombre}, Marca: ${product.marca}, Precio: ${product.precioActual}, Stock: ${product.cantidadDisponible}`;
+                    productList.appendChild(li);
+                });
+            } else {
+                productList.innerHTML = '<li>No se encontraron productos.</li>';
+            }
+
+        } catch (error) {
+            console.error('Error al cargar productos:', error);
+            productList.innerHTML = '<li class="error">Error al cargar productos. Asegúrate de que el backend esté corriendo y la base de datos populada.</li>';
+        }
+    }
+
+    // --- Función genérica para manejar respuestas de la API ---
+    async function handleApiResponse(response, responseDiv) {
+        const contentType = response.headers.get('content-type');
+        let responseBody;
+
+        try {
+            // Intenta parsear JSON solo si la respuesta tiene content-type JSON
+            if (contentType && contentType.includes('application/json')) {
+                responseBody = await response.json();
+            } else {
+                // Si no es JSON, lee la respuesta como texto
+                responseBody = await response.text();
+            }
+        } catch (error) {
+             console.error('Error al leer cuerpo de respuesta:', error);
+             responseBody = `Error al leer cuerpo de respuesta: ${error.message}`;
+        }
+
+
+        if (response.ok) { // Status code 2xx
+            responseDiv.className = 'response success';
+            responseDiv.textContent = 'Operación exitosa. Estado: ' + response.status + '\n';
+            if (responseBody) {
+                 responseDiv.textContent += 'Respuesta del servidor:\n' + JSON.stringify(responseBody, null, 2); // Formatea JSON para mejor lectura
+            }
+             // Recargar la lista de productos si la operación pudo afectar el stock
+             if (responseDiv.id === 'inventoryResponse') {
+                 loadProducts();
+             }
+
+        } else { // Status code 4xx o 5xx
+            responseDiv.className = 'response error';
+            responseDiv.textContent = 'Error en la operación. Estado: ' + response.status + '\n';
+             if (responseBody) {
+                  // Mostrar cuerpo del error (ej. mensaje de ValidacionNegocioException o lista de errores de validación)
+                  responseDiv.textContent += 'Detalle del error:\n' + (typeof responseBody === 'object' ? JSON.stringify(responseBody, null, 2) : responseBody);
+             } else {
+                  responseDiv.textContent += 'No hay detalle de error en la respuesta.';
+             }
+        }
+    }
+
+
+    // --- Event Listener para el formulario de Entrada de Inventario ---
+    document.getElementById('inventoryEntryForm').addEventListener('submit', async function(event) {
+        event.preventDefault(); // Previene el envío del formulario tradicional
+
+        const idProducto = document.getElementById('inventory_idProducto').value;
+        const cantidad = document.getElementById('inventory_cantidad').value;
+        const idProveedor = document.getElementById('inventory_idProveedor').value;
+        const referencia = document.getElementById('inventory_referencia').value;
+        const idUsuarioRegistro = document.getElementById('inventory_idUsuarioRegistro').value;
+
+        // Construye el objeto de datos según el DTO DatosRegistroEntradaInventario
+        const inventoryData = {
+            idProducto: parseInt(idProducto), // Convertir a número entero
+            cantidad: parseFloat(cantidad), // Convertir a número flotante (si cantidad es DECIMAL)
+            idProveedor: parseInt(idProveedor),
+            referencia: referencia, // La referencia es String en el DTO
+            idUsuarioRegistro: parseInt(idUsuarioRegistro)
+        };
+
+        const responseDiv = document.getElementById('inventoryResponse');
+        responseDiv.textContent = 'Enviando solicitud...';
+        responseDiv.className = 'response'; // Limpia clases de estado anterior
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/inventario/entrada`, {
+                method: 'POST', // Es una solicitud POST
+                headers: {
+                    'Content-Type': 'application/json' // Indicamos que el cuerpo es JSON
+                },
+                body: JSON.stringify(inventoryData) // Convertimos el objeto JS a JSON String
+            });
+
+            await handleApiResponse(response, responseDiv); // Maneja la respuesta
+
+        } catch (error) {
+            console.error('Error al enviar solicitud de entrada:', error);
+            responseDiv.className = 'response error';
+            responseDiv.textContent = 'Error al conectar con la API: ' + error.message;
+        }
+    });
+
+    // --- Event Listener para el formulario de Realizar Pedido ---
+    document.getElementById('placeOrderForm').addEventListener('submit', async function(event) {
+        event.preventDefault(); // Previene el envío del formulario tradicional
+
+        const idCliente = document.getElementById('order_idCliente').value;
+        const metodoPago = document.getElementById('order_metodoPago').value;
+        const idProductoItem = document.getElementById('order_idProducto').value;
+        const cantidadItem = document.getElementById('order_cantidad').value;
+
+        // Construye el objeto de datos según el DTO DatosRegistroPedido
+        // Simplificado para 1 ítem
+        const orderData = {
+            idCliente: parseInt(idCliente), // Convertir a número
+            metodoPago: metodoPago,
+            items: [ // La lista de items
+                { // Un solo ítem del pedido (DatosItemPedido)
+                    idProducto: parseInt(idProductoItem),
+                    cantidad: parseInt(cantidadItem) // Cantidad en DetalleFactura es INT en tu DDL, convertir a número entero
+                }
+            ]
+        };
+
+        const responseDiv = document.getElementById('orderResponse');
+        responseDiv.textContent = 'Enviando solicitud...';
+        responseDiv.className = 'response'; // Limpia clases de estado anterior
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/pedidos`, {
+                method: 'POST', // Es una solicitud POST
+                headers: {
+                    'Content-Type': 'application/json' // Indicamos que el cuerpo es JSON
+                },
+                body: JSON.stringify(orderData) // Convertimos el objeto JS a JSON String
+            });
+
+            await handleApiResponse(response, responseDiv); // Maneja la respuesta
+
+             // Recargar la lista de productos si la operación pudo afectar el stock (ej. venta lo reduce)
+             loadProducts();
+
+        } catch (error) {
+            console.error('Error al enviar solicitud de pedido:', error);
+            responseDiv.className = 'response error';
+            responseDiv.textContent = 'Error al conectar con la API: ' + error.message;
+        }
+    });
+
+
+    // --- Cargar productos al cargar la página ---
+    window.addEventListener('load', loadProducts);
+
+</script>
+
+</body>
+</html>
