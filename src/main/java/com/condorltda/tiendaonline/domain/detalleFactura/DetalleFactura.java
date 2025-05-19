@@ -21,18 +21,18 @@ public class DetalleFactura {
 
     @Id // PK
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Autoincremento en MySQL
-    @Column(name = "id_detallefacturas") // Nombre de columna de tu DDL
+    @Column(name = "id_detalle_factura") // Nombre de columna de tu DDL
     private Integer id; // Tipo de dato Java que mapea a INT AUTO_INCREMENT en MySQL
 
     @ManyToOne(fetch = FetchType.LAZY) // Relación Muchos a Uno: Muchos Detalles pertenecen a una Factura
-    @JoinColumn(name = "facturas_id_facturas", nullable = false) // Columna FK en esta tabla (nombre de tu DDL)
+    @JoinColumn(name = "id_factura", nullable = false) // Columna FK en esta tabla (nombre de tu DDL)
     private Factura factura; // Relación con la entidad Factura
 
     @ManyToOne(fetch = FetchType.LAZY) // Relación Muchos a Uno: Muchos Detalles son de un Producto
-    @JoinColumn(name = "productos_id_producto", nullable = false) // Columna FK en esta tabla (nombre de tu DDL)
+    @JoinColumn(name = "id_producto", nullable = false) // Columna FK en esta tabla (nombre de tu DDL)
     private Producto producto; // Relación con la entidad Producto
 
-    @Column(name = "cantidad_venta", nullable = false) // INT NOT NULL
+    @Column(name = "cantidad_vendida", nullable = false) // INT NOT NULL
     private Integer cantidadVendida; // Usar Integer
 
     @Column(name = "precio_unitario", nullable = false) // DECIMAL(10, 2) NOT NULL

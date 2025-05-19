@@ -1,4 +1,4 @@
-package com.condorltda.tiendaonline.service;
+package com.condorltda.tiendaonline.domain.service;
 
 
 import com.condorltda.tiendaonline.domain.StockInsuficienteException;

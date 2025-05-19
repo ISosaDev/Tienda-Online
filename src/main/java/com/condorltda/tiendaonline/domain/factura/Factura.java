@@ -31,10 +31,10 @@ public class Factura {
     private LocalDate fecha; // Usar LocalDate para tipo DATE de MySQL
 
     @ManyToOne(fetch = FetchType.LAZY) // Relación Muchos a Uno: Muchas Facturas pertenecen a un Cliente
-    @JoinColumn(name = "clientes_id_cliente", nullable = false) // Columna FK en la tabla 'facturas' (nombre de tu DDL)
+    @JoinColumn(name = "id_cliente", nullable = false) // Columna FK en la tabla 'facturas' (nombre de tu DDL)
     private Cliente cliente; // Relación con la entidad Cliente
 
-    @Column(name = "valor_total", nullable = false) // DECIMAL(10, 2) NOT NULL
+    @Column(name = "valor_total_factura", nullable = false) // DECIMAL(10, 2) NOT NULL
     private BigDecimal valorTotalFactura; // Usar BigDecimal
 
     @Column(name = "metodo_pago", nullable = false) // VARCHAR(10) NOT NULL

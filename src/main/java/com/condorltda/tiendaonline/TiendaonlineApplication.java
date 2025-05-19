@@ -1,7 +1,8 @@
-package com.condorltda.tiendaonline.infra;
+package com.condorltda.tiendaonline;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
 
 @SpringBootApplication
 public class TiendaonlineApplication {

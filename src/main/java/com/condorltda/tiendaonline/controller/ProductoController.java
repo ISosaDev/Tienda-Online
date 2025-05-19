@@ -5,7 +5,7 @@ package com.condorltda.tiendaonline.controller;
 import com.condorltda.tiendaonline.domain.movimientoInventario.DatosListadoProducto;
 import com.condorltda.tiendaonline.domain.producto.Producto;
 import com.condorltda.tiendaonline.domain.producto.ProductoRepository;
-import com.condorltda.tiendaonline.service.InventarioService;
+import com.condorltda.tiendaonline.domain.service.InventarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity; // Para construir la respuesta
 import org.springframework.web.bind.annotation.GetMapping; // Para manejar solicitudes GET

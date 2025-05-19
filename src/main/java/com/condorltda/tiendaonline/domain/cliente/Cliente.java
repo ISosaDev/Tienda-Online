@@ -41,8 +41,6 @@ public class Cliente {
     @Column(name = "nombres_o_razonsocial", nullable = false) // VARCHAR(100) NOT NULL
     private String nombresORazonSocial;
 
-    @Column(name = "email") // VARCHAR(100), puede ser nulo según tu DDL
-    private String emailContacto; // Email de contacto si es diferente al de login
 
     @Column(name = "telefono", nullable = false) // INT NOT NULL (Según tu DDL original, aunque discutimos VARCHAR)
     private String telefono; // Usar Integer si insistes en INT en BD
@@ -68,7 +66,6 @@ public class Cliente {
         this.tipoIdentificacion = tipoIdentificacion;
         this.numeroIdentificacion = numeroIdentificacion;
         this.nombresORazonSocial = nombresORazonSocial;
-        this.emailContacto = emailContacto;
         this.telefono = telefono;
         this.direccion = direccion;
         this.ciudad = ciudad;
@@ -85,9 +82,7 @@ public class Cliente {
         if (nuevoTelefono != null) { // Considerar validación de formato/unicidad si es necesario
             this.telefono = nuevoTelefono;
         }
-        if (nuevoEmailContacto != null && !nuevoEmailContacto.trim().isEmpty()) {
-            this.emailContacto = nuevoEmailContacto;
-        }
+
         // Nota: No se deberían cambiar Tipo/Numero Identificacion ni Usuario asociado con un simple actualizar
     }
 }

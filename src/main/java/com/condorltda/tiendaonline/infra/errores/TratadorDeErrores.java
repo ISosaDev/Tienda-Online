@@ -1,4 +1,4 @@
-package com.condorltda.tiendaonline.infra;
+package com.condorltda.tiendaonline.infra.errores;
 
 
 
@@ -6,7 +6,6 @@ import com.condorltda.tiendaonline.domain.StockInsuficienteException;
 import com.condorltda.tiendaonline.domain.ValidacionNegocioException;
 import jakarta.persistence.EntityNotFoundException; // Excepción común de JPA cuando no se encuentra una entidad
 
-import org.springframework.http.HttpStatus; // Para códigos de estado HTTP
 import org.springframework.http.ResponseEntity; // Para construir respuestas HTTP
 import org.springframework.validation.FieldError; // Para manejar errores de validación de campos
 import org.springframework.web.bind.MethodArgumentNotValidException; // Excepción de validación de @Valid

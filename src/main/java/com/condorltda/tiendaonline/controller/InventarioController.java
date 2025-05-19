@@ -3,7 +3,7 @@ package com.condorltda.tiendaonline.controller;
 
 
 import com.condorltda.tiendaonline.domain.movimientoInventario.DatosRegistroEntradaInventario;
-import com.condorltda.tiendaonline.service.InventarioService;
+import com.condorltda.tiendaonline.domain.service.InventarioService;
 import jakarta.validation.Valid; // Para activar la validación
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity; // Para construir la respuesta

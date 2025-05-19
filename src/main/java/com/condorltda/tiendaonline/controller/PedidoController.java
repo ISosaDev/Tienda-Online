@@ -4,7 +4,7 @@ package com.condorltda.tiendaonline.controller;
 
 import com.condorltda.tiendaonline.domain.pedido.DatosRegistroPedido;
 import com.condorltda.tiendaonline.domain.pedido.DatosRespuestaPedido;
-import com.condorltda.tiendaonline.service.PedidoService;
+import com.condorltda.tiendaonline.domain.service.PedidoService;
 import jakarta.validation.Valid; // Para activar la validación de los DTOs de entrada
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity; // Para construir la respuesta HTTP

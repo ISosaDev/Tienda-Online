@@ -28,16 +28,16 @@ public class Proveedor {
     private String tipoIdentificacion; // Ej: 'CC', 'NIT'
 
     @Column(name = "numero_identificacion", nullable = false) // INT NOT NULL (Según tu DDL original, aunque discutimos VARCHAR)
-    private Integer numeroIdentificacion; // Usar Integer si insistes en INT en BD
+    private String numeroIdentificacion; // Usar Integer si insistes en INT en BD
 
     @Column(name = "nombre_razonsocial", nullable = false) // VARCHAR(100) NOT NULL
     private String nombreRazonSocial; // Nombre del proveedor o razón social
 
-    @Column(name = "contacto") // VARCHAR(100) - Aunque no estaba en tu DDL original, es común tener un contacto
-    private String contacto; // Nombre de la persona de contacto
+    //@Column(name = "contacto") // VARCHAR(100) - Aunque no estaba en tu DDL original, es común tener un contacto
+    //private String contacto; // Nombre de la persona de contacto
 
     @Column(name = "telefono", nullable = false) // INT NOT NULL (Según tu DDL original, aunque discutimos VARCHAR)
-    private Integer telefono; // Usar Integer si insistes en INT en BD
+    private String telefono; // Usar Integer si insistes en INT en BD
 
     @Column(name = "email") // VARCHAR(100) - Puede ser nulo según tu DDL original
     private String email; // Email de contacto
@@ -46,7 +46,7 @@ public class Proveedor {
     private String direccion;
 
     @ManyToOne(fetch = FetchType.LAZY) // Relación Muchos a Uno: Muchos Proveedores están en una Ciudad
-    @JoinColumn(name = "ciudades_id_ciudad", nullable = false) // Columna FK en la tabla 'proveedores' (nombre de tu DDL)
+    @JoinColumn(name = "id_ciudad", nullable = false) // Columna FK en la tabla 'proveedores' (nombre de tu DDL)
     private Ciudad ciudad; // Relación con la entidad Ciudad
 
     // Nota: La restricción UNIQUE KEY (tipo_identificacion, numero_identificacion)
@@ -55,12 +55,12 @@ public class Proveedor {
     // individualmente aquí, ya que es una restricción compuesta.
 
     // Constructor para usar al crear un nuevo Proveedor sin especificar ID
-    public Proveedor(String tipoPersona, String tipoIdentificacion, Integer numeroIdentificacion, String nombreRazonSocial, String contacto, Integer telefono, String email, String direccion, Ciudad ciudad) {
+    public Proveedor(String tipoPersona, String tipoIdentificacion, String numeroIdentificacion, String nombreRazonSocial, String contacto, String telefono, String email, String direccion, Ciudad ciudad) {
         this.tipoPersona = tipoPersona;
         this.tipoIdentificacion = tipoIdentificacion;
         this.numeroIdentificacion = numeroIdentificacion;
         this.nombreRazonSocial = nombreRazonSocial;
-        this.contacto = contacto;
+        //this.contacto = contacto;
         this.telefono = telefono;
         this.email = email;
         this.direccion = direccion;
