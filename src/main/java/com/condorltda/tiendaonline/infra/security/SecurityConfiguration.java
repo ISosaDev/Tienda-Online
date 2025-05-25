@@ -21,9 +21,10 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/inventario/entrada").permitAll() // Permitir entrada de inventario
                         .requestMatchers("/api/pedidos").permitAll() // Permitir realización de pedidos
                         .requestMatchers("/api/productos").permitAll() // Permitir listado de productos
-
+                        .requestMatchers("/api/pagos/factura/**").permitAll() // <--- ¡IMPORTANTE! Permite cualquier ID de factura
+                        .requestMatchers("/api/facturas").permitAll() // <--- ¡AÑADIDO! Si tienes un endpoint para listar facturas
                         // Permitir acceso a la raíz, index.html y todos los recursos dentro de /static/
-                        .requestMatchers("/", "/index.html", "/static/**").permitAll()
+                        .requestMatchers("/", "/index.html", "/static/**", "/**.html", "/**.js", "/**.css").permitAll()
 
                         // **Negar explícitamente cualquier otra solicitud que no coincida con las anteriores**
                         // Esto es más estricto que .authenticated() y ayuda a depurar el 403

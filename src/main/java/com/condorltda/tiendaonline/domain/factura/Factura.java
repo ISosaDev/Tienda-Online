@@ -40,8 +40,9 @@ public class Factura {
     @Column(name = "metodo_pago", nullable = false) // VARCHAR(10) NOT NULL
     private String metodoPago; // Podría mapear a un Enum si defines uno
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "estado_factura", nullable = false) // VARCHAR(10) NOT NULL
-    private String estadoFactura; // Podría mapear a un Enum si defines uno
+    private EstadoFactura estadoFactura; // Podría mapear a un Enum si defines uno
 
     @OneToMany(mappedBy = "factura", cascade = CascadeType.ALL, orphanRemoval = true) // Relación Uno a Muchos: Una Factura tiene muchos DetalleFactura
     // cascade = CascadeType.ALL: Si guardas/borras la Factura, JPA también guarda/borra sus detalles asociados
@@ -49,7 +50,7 @@ public class Factura {
     private List<DetalleFactura> items; // Lista de los detalles de la factura
 
     // Constructor para usar al crear una nueva Factura (los items se añaden por separado)
-    public Factura(LocalDate fecha, Cliente cliente, BigDecimal valorTotalFactura, String metodoPago, String estadoFactura) {
+    public Factura(LocalDate fecha, Cliente cliente, BigDecimal valorTotalFactura, String metodoPago, EstadoFactura estadoFactura) {
         this.fecha = fecha;
         this.cliente = cliente;
         this.valorTotalFactura = valorTotalFactura; // Este valor debería calcularse o validarse
@@ -67,7 +68,7 @@ public class Factura {
     }
 
     // Métodos para actualizar estado o valor si es necesario
-    public void actualizarEstado(String nuevoEstado) {
+    public void actualizarEstado(EstadoFactura nuevoEstado) {
         this.estadoFactura = nuevoEstado;
     }
 
