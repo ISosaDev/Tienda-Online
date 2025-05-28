@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/facturas") // Endpoint para listar facturas
@@ -17,8 +19,18 @@ public class FacturaController {
     private FacturaRepository facturaRepository;
 
     @GetMapping
-    public ResponseEntity<List<Factura>> listarTodasLasFacturas() {
+    public ResponseEntity<List<Map<String, Object>>> listarFacturasSimplificadas() {
         List<Factura> facturas = facturaRepository.findAll();
-        return ResponseEntity.ok(facturas);
+        List<Map<String, Object>> resultado = facturas.stream().map(f -> {
+            Map<String, Object> dto = new HashMap<>();
+            dto.put("id", f.getId());
+            dto.put("fecha", f.getFecha());
+            dto.put("valorTotalFactura", f.getValorTotalFactura());
+            dto.put("metodoPago", f.getMetodoPago());
+            dto.put("estadoFactura", f.getEstadoFactura().toString());
+            return dto;
+        }).toList();
+        return ResponseEntity.ok(resultado);
     }
+
 }

@@ -11,6 +11,7 @@ import lombok.Setter;
 
 import java.time.LocalDate; // Usar LocalDate para tipo DATE de MySQL
 import java.math.BigDecimal; // Para valor_total_factura
+import java.time.LocalDateTime;
 import java.util.List; // Para relación con DetalleFactura
 
 @Table(name = "facturas") // Nombre de la tabla en la BD
@@ -24,11 +25,11 @@ public class Factura {
 
     @Id // PK
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Autoincremento en MySQL
-    @Column(name = "id_facturas") // Nota: Tu DDL usaba id_facturas, nuestro modelo sugería id_factura. Mantengo tu DDL.
+    @Column(name = "id_factura") // Nota: Tu DDL usaba id_facturas, nuestro modelo sugería id_factura. Mantengo tu DDL.
     private Integer id; // Tipo de dato Java que mapea a INT AUTO_INCREMENT en MySQL
 
     @Column(name = "fecha", nullable = false) // DATE NOT NULL en tu DDL. Si necesitas hora, usa DATETIME y LocalDateTime en Java
-    private LocalDate fecha; // Usar LocalDate para tipo DATE de MySQL
+    private LocalDateTime fecha; // Usar LocalDate para tipo DATE de MySQL
 
     @ManyToOne(fetch = FetchType.LAZY) // Relación Muchos a Uno: Muchas Facturas pertenecen a un Cliente
     @JoinColumn(name = "id_cliente", nullable = false) // Columna FK en la tabla 'facturas' (nombre de tu DDL)
@@ -50,8 +51,8 @@ public class Factura {
     private List<DetalleFactura> items; // Lista de los detalles de la factura
 
     // Constructor para usar al crear una nueva Factura (los items se añaden por separado)
-    public Factura(LocalDate fecha, Cliente cliente, BigDecimal valorTotalFactura, String metodoPago, EstadoFactura estadoFactura) {
-        this.fecha = fecha;
+    public Factura(LocalDateTime fecha, Cliente cliente, BigDecimal valorTotalFactura, String metodoPago, EstadoFactura estadoFactura) {
+        this.fecha = LocalDateTime.now();
         this.cliente = cliente;
         this.valorTotalFactura = valorTotalFactura; // Este valor debería calcularse o validarse
         this.metodoPago = metodoPago;

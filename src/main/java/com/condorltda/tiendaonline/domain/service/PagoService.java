@@ -26,7 +26,7 @@ import java.util.concurrent.ScheduledFuture;
 @Service
 public class PagoService {
     private static final Logger logger = LoggerFactory.getLogger(PagoService.class);
-    private final static long TIEMPO_ESPERA_PAGO_SEGUNDOS = 5; // Tiempo para el demo
+    private final static long TIEMPO_ESPERA_PAGO_SEGUNDOS = 30; // Tiempo para el demo
 
     @Autowired
     private FacturaRepository facturaRepository;
@@ -52,6 +52,7 @@ public class PagoService {
      * @param facturaId El ID de la factura.
      */
     public void iniciarSimulacionPago(Integer facturaId) {
+
         Factura factura = facturaRepository.findById(facturaId)
                 .orElseThrow(() -> {
                     logger.error("Intento de iniciar simulación de pago para factura no existente ID: {}", facturaId);
@@ -69,6 +70,9 @@ public class PagoService {
                 () -> cancelarFacturaPorTimeout(facturaId), // La acción a ejecutar
                 Instant.now().plusSeconds(TIEMPO_ESPERA_PAGO_SEGUNDOS) // Cuándo ejecutarla
         );
+
+        logger.info("✅ Tarea programada para cancelar factura ID: {} en {} segundos", facturaId, TIEMPO_ESPERA_PAGO_SEGUNDOS);
+
         // Almacenar la tarea para poder cancelarla si el pago se realiza a tiempo
         tareasPendientesCancelacion.put(facturaId, tareaProgramada);
     }
@@ -137,57 +141,54 @@ public class PagoService {
      * Este método es llamado por el TaskScheduler.
      * @param facturaId El ID de la factura a cancelar.
      */
-    @Transactional // Importante para la atomicidad de la cancelación y reversión de stock
+    @Transactional
     public void cancelarFacturaPorTimeout(Integer facturaId) {
-        // Remover la tarea del mapa para indicar que se está manejando o ya se manejó.
-        tareasPendientesCancelacion.remove(facturaId);
+        logger.info("⏰ Ejecutando cancelación automática por timeout para factura ID: {}", facturaId);
 
+        // Buscar la factura
         Factura factura = facturaRepository.findById(facturaId).orElse(null);
-
         if (factura == null) {
-            logger.warn("Timeout: Factura ID: {} no encontrada para cancelación (pudo ser eliminada).", facturaId);
-            return; // No se puede hacer nada si no existe
+            logger.warn("Factura ID: {} no encontrada. No se puede cancelar.", facturaId);
+            return;
         }
 
-        // Solo proceder si la factura aún está PENDIENTE.
-        // Si ya fue PAGADA (porque el pago se procesó casi al mismo tiempo que el timeout), no hacer nada.
-        if (factura.getEstadoFactura() == EstadoFactura.PENDIENTE) {
-            logger.info("Timeout: Cancelando Factura ID: {} por expiración de tiempo.", facturaId);
-            factura.setEstadoFactura(EstadoFactura.CANCELADA);
-
-            // --- INICIO DE TRANSACCIÓN COMPENSATORIA (para demostrar ACID) ---
-            // Revertir los movimientos de inventario asociados a esta factura.
-            logger.info("Iniciando transacción compensatoria para revertir stock de Factura ID: {}.", facturaId);
-            for (DetalleFactura item : factura.getItems()) {
-                // La cantidad en DetalleFactura es la vendida (positiva).
-                // El movimiento original de salida_venta tuvo una cantidad negativa.
-                // Para revertir, creamos un nuevo movimiento con cantidad positiva.
-                BigDecimal cantidadARestaurar = new BigDecimal(item.getCantidadVendida());
-
-                Usuario usuarioCliente = factura.getCliente() != null ? factura.getCliente().getUsuario() : null;
-                if (usuarioCliente == null) {
-                    logger.warn("No se pudo obtener el usuario del cliente para la factura ID: {}. El movimiento de reversión se registrará sin usuario.", facturaId);
-                }
-
-                MovimientoInventario reversion = new MovimientoInventario(
-                        item.getProducto(),
-                        "REVERSION_PAGO_NO_REALIZADO", // Tipo de movimiento para la reversión
-                        cantidadARestaurar,          // Cantidad positiva para sumar al stock
-                        null,                        // cantidadDisponible (si se calcula, puede ser null o 0)
-                        LocalDate.now(),
-                        "CANCELADA - Factura ID: " + factura.getId(), // Referencia
-                        usuarioCliente,        // Usuario asociado (el cliente o sistema)
-                        null                         // Proveedor (no aplica para reversión de venta)
-                );
-                movimientoInventarioRepository.save(reversion);
-                logger.info("Stock revertido para Producto ID: {} en Factura ID: {} (Cantidad: {}). Movimiento de reversión ID: {}",
-                        item.getProducto().getId(), facturaId, cantidadARestaurar, reversion.getId());
-            }
-            facturaRepository.save(factura); // Guardar el estado CANCELADA de la factura
-            logger.info("Factura ID: {} marcada como CANCELADA y stock revertido. Transacción compensatoria completada.", facturaId);
-            // --- FIN DE TRANSACCIÓN COMPENSATORIA ---
-        } else {
-            logger.info("Timeout: Factura ID: {} ya no está PENDIENTE (Estado actual: {}). No se cancela por timeout.", facturaId, factura.getEstadoFactura());
+        // Verificar estado actual
+        if (factura.getEstadoFactura() != EstadoFactura.PENDIENTE) {
+            logger.info("Factura ID: {} ya no está en estado PENDIENTE (actual: {}). No se cancela.", facturaId, factura.getEstadoFactura());
+            return;
         }
+
+        // Forzar carga de ítems si la relación es LAZY
+        if (factura.getItems() == null || factura.getItems().isEmpty()) {
+            logger.warn("Factura ID: {} no tiene ítems cargados. Verifica configuración de FetchType.", facturaId);
+            return;
+        }
+
+        // Cambiar estado a CANCELADA
+        factura.setEstadoFactura(EstadoFactura.CANCELADA);
+        facturaRepository.save(factura);
+        logger.info("Factura ID: {} marcada como CANCELADA.", facturaId);
+
+        // Revertir inventario
+        for (DetalleFactura item : factura.getItems()) {
+            BigDecimal cantidadARestaurar = new BigDecimal(item.getCantidadVendida());
+
+            MovimientoInventario reversion = new MovimientoInventario(
+                    item.getProducto(),
+                    "REVERSION_PAGO_NO_REALIZADO",
+                    cantidadARestaurar,
+                    null,
+                    LocalDate.now(),
+                    "CANCELADA - Factura ID: " + factura.getId(),
+                    factura.getCliente() != null ? factura.getCliente().getUsuario() : null,
+                    null
+            );
+
+            movimientoInventarioRepository.save(reversion);
+            logger.info("Stock revertido para Producto ID: {} (Cantidad: {}).", item.getProducto().getId(), cantidadARestaurar);
+        }
+
+        logger.info("✅ Transacción compensatoria completada para Factura ID: {}", facturaId);
     }
+
 }

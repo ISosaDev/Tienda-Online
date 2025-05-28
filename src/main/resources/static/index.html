@@ -6,143 +6,140 @@
     <title>Demo API Entregas Cóndor Ltda.</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 20px;
-            background-color: #f4f4f4;
-            color: #333;
+          font-family: Arial, sans-serif;
+          line-height: 1.6;
+          margin: 20px;
+          background-color: #f4f4f4;
+          color: #333;
         }
         .container {
-            background-color: #fff;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          background-color: #fff;
+          padding: 20px;
+          margin-bottom: 20px;
+          border-radius: 8px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         h2 {
-            color: #0056b3;
-            border-bottom: 2px solid #0056b3;
-            padding-bottom: 5px;
-            margin-bottom: 15px;
+          color: #0056b3;
+          border-bottom: 2px solid #0056b3;
+          padding-bottom: 5px;
+          margin-bottom: 15px;
         }
         form {
-            display: grid;
-            gap: 10px;
-            margin-bottom: 15px;
+          display: grid;
+          gap: 10px;
+          margin-bottom: 15px;
         }
         label {
-            font-weight: bold;
-        }
-        input[type="text"],
+         [type="text"],
         input[type="number"],
         input[type="submit"] {
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 1em;
+          padding: 8px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          font-size: 1em;
         }
-         input[type="submit"] {
-            background-color: #0056b3;
-            color: white;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
+        input[type="submit"] {
+          background-color: #0056b3;
+          color: white;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
         }
         input[type="submit"]:hover {
-            background-color: #004085;
+          background-color: #004085;
         }
         ul {
-            list-style: none;
-            padding: 0;
+          list-style: none;
+          padding: 0;
         }
         li {
-            background-color: #e9e9e9;
-            padding: 10px;
-            margin-bottom: 5px;
-            border-radius: 4px;
+          background-color: #e9e9e9;
+          padding: 10px;
+          margin-bottom: 5px;
+          border-radius: 4px;
         }
         .response {
-            margin-top: 15px;
-            padding: 10px;
-            border-radius: 4px;
-            white-space: pre-wrap; /* Preserva saltos de línea y espacios */
-            word-wrap: break-word; /* Rompe palabras largas */
+          margin-top: 15px;
+          padding: 10px;
+          border-radius: 4px;
+          white-space: pre-wrap;
+          word-wrap: break-word;
         }
         .response.success {
-            background-color: #d4edda;
-            color: #155724;
-            border-color: #c3e6cb;
+          background-color: #d4edda;
+          color: #155724;
+          border-color: #c3e6cb;
         }
         .response.error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border-color: #f5c6cb;
+          background-color: #f8d7da;
+          color: #721c24;
+          border-color: #f5c6cb;
         }
-        .pending-payment { /* Estilo para la sección de pago */
-            margin-top: 15px;
-            padding: 15px;
-            background-color: #fff3cd; /* Amarillo claro para PENDIENTE */
-            border: 1px solid #ffeeba;
-            border-radius: 4px;
+        .pending-payment {
+          margin-top: 15px;
+          padding: 15px;
+          background-color: #fff3cd;
+          border: 1px solid #ffeeba;
+          border-radius: 4px;
         }
-        .payment-paid { /* Estilo para pago exitoso */
-             background-color: #d4edda; /* Verde claro */
-             border-color: #c3e6cb;
+        .payment-paid {
+          background-color: #d4edda;
+          border-color: #c3e6cb;
         }
-        .payment-cancelled { /* Estilo para pago cancelado/expirado */
-            background-color: #f8d7da; /* Rojo claro */
-            border-color: #f5c6cb;
+        .payment-cancelled {
+          background-color: #f8d7da;
+          border-color: #f5c6cb;
         }
-        /* Estilos para los estados de factura en la tabla */
         .status-pendiente {
-            color: #856404;
-            background-color: #fff3cd;
-            padding: 2px 5px;
-            border-radius: 3px;
+          color: #856404;
+          background-color: #fff3cd;
+          padding: 2px 5px;
+          border-radius: 3px;
         }
         .status-pagada {
-            color: #155724;
-            background-color: #d4edda;
-            padding: 2px 5px;
-            border-radius: 3px;
+          color: #155724;
+          background-color: #d4edda;
+          padding: 2px 5px;
+          border-radius: 3px;
         }
         .status-cancelada {
-            color: #721c24;
-            background-color: #f8d7da;
-            padding: 2px 5px;
-            border-radius: 3px;
+          color: #721c24;
+          background-color: #f8d7da;
+          padding: 2px 5px;
+          border-radius: 3px;
         }
         table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
+          width: 100%;
+          border-collapse: collapse;
+          margin-top: 15px;
         }
         th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
+          border: 1px solid #ddd;
+          padding: 8px;
+          text-align: left;
         }
         th {
-            background-color: #f2f2f2;
+          background-color: #f2f2f2;
         }
-        /* Corregido: El botón de pagar estaba fuera del bloque de estilos general */
         button.pay-button {
-            background-color: #28a745; /* Verde para el botón pagar */
-            color: white;
-            padding: 5px 10px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.9em;
-            margin-top: 10px; /* Añadido para separación */
+          background-color: #28a745;
+          color: white;
+          padding: 5px 10px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 0.9em;
+          margin-top: 10px;
         }
         button.pay-button:hover {
-            background-color: #218838;
+          background-color: #218838;
         }
         button.pay-button:disabled {
-            background-color: #6c757d; /* Gris cuando deshabilitado */
-            cursor: not-allowed;
+          background-color: #6c757d;
+          cursor: not-allowed;
         }
     </style>
+
 </head>
 <body>
 
@@ -163,10 +160,15 @@
         <input type="number" id="inventory_idProducto" required><br>
 
         <label for="inventory_cantidad">Cantidad:</label>
-        <input type="number" id="inventory_cantidad" step="any" required><br> <label for="inventory_idProveedor">ID Proveedor:</label>
+        <input type="number" id="inventory_cantidad" step="any" required><br>
+
+        <label for="inventory_idProveedor">ID Proveedor:</label>
         <input type="number" id="inventory_idProveedor" required><br>
 
-        <label for="inventory_referencia">Referencia:</label> <input type="text" id="inventory_referencia" required><br> <label for="inventory_idUsuarioRegistro">ID Usuario Registro (Personal):</label>
+        <label for="inventory_referencia">Referencia:</label>
+        <input type="text" id="inventory_referencia" required><br>
+
+        <label for="inventory_idUsuarioRegistro">ID Usuario Registro (Personal):</label>
         <input type="number" id="inventory_idUsuarioRegistro" required><br>
 
         <input type="submit" value="Registrar Entrada">
@@ -175,7 +177,7 @@
 </div>
 
 <div class="container">
-    <h2>Realizar Pedido (1 ítem) 📝</h2>
+    <h2>Realizar Pedido (Múltiples Ítems) 📝</h2>
     <form id="placeOrderForm">
         <label for="order_idCliente">ID Cliente (ej: 1):</label>
         <input type="number" id="order_idCliente" value="1" required><br>
@@ -183,13 +185,16 @@
         <label for="order_metodoPago">Método Pago (ej: TARJETA_DEMO):</label>
         <input type="text" id="order_metodoPago" value="TARJETA_DEMO" required><br>
 
-        <h3>Ítem del Pedido</h3>
-        <label for="order_idProducto">ID Producto (ej: 1):</label>
-        <input type="number" id="order_idProducto" value="1" required><br>
-
-        <label for="order_cantidad">Cantidad (ej: 1):</label>
-        <input type="number" id="order_cantidad" value="1" required><br>
-
+        <h3>Ítems del Pedido</h3>
+        <div id="orderItemsContainer">
+            <div class="order-item">
+                <label>ID Producto:</label>
+                <input type="number" class="order_idProducto" value="1" required><br>
+                <label>Cantidad:</label>
+                <input type="number" class="order_cantidad" value="1" required><br>
+            </div>
+        </div>
+        <button type="button" onclick="addOrderItem()">Agregar Ítem</button>
         <input type="submit" value="Realizar Pedido">
     </form>
     <div id="orderResponse" class="response"></div>
@@ -215,350 +220,266 @@
 </div>
 
 
+
 <script>
-    // URL base de tu API
-    // ¡IMPORTANTE! Si estás abriendo el archivo HTML directamente en el navegador (ej. file:///...),
-    // DEBES usar 'http://localhost:8080'. Si tu aplicación Spring Boot sirve este archivo HTML,
-    // puedes usar una cadena vacía ('' o './') para que sea relativa al origen.
-    const API_BASE_URL = 'http://localhost:8080'; // <--- ¡CORREGIDO Y EXPLICADO!
+    const API_BASE_URL = 'http://localhost:8080';
     let paymentIntervalId = null;
-    let currentFacturaIdForPayment = null; // Para guardar el ID de la factura actual a pagar
+    let currentFacturaIdForPayment = null;
 
-    // --- Función para cargar y mostrar productos ---
+    function addOrderItem() {
+      const container = document.getElementById("orderItemsContainer");
+      const newItem = document.createElement("div");
+      newItem.className = "order-item";
+      newItem.innerHTML = `
+        <label>ID Producto:</label>
+        <input type="number" class="order_idProducto" value="1" required><br>
+        <label>Cantidad:</label>
+        <input type="number" class="order_cantidad" value="1" required><br>
+      `;
+      container.appendChild(newItem);
+    }
+
     async function loadProducts() {
-        const productList = document.getElementById('productList');
-        productList.innerHTML = '<li>Cargando productos... 🔄</li>'; // Mensaje de carga
-
-        try {
-            const response = await fetch(`${API_BASE_URL}/api/productos`);
-            if (!response.ok) throw new Error(`Error HTTP: ${response.status} ${response.statusText || ''}`);
-            const products = await response.json();
-
-            productList.innerHTML = '';
-
-            if (products && products.length > 0) {
-                products.forEach(product => {
-                    const li = document.createElement('li');
-                    // .toLocaleString() para formatear números como moneda
-                    li.textContent = `ID: ${product.id}, Nombre: ${product.nombre}, Marca: ${product.marca}, Precio: $${product.precioActual.toLocaleString('es-CO')}, Stock: ${product.cantidadDisponible}`;
-                    productList.appendChild(li);
-                });
-            } else {
-                productList.innerHTML = '<li>No se encontraron productos.</li>';
-            }
-        } catch (error) { // <--- ¡CORREGIDO! Eliminado el `catch` anidado
-            console.error('Error al cargar productos:', error);
-            productList.innerHTML = `<li class="response error">Error al cargar productos. (${error.message})</li>`;
+      const productList = document.getElementById('productList');
+      productList.innerHTML = '<li>Cargando productos... 🔄</li>';
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/productos`);
+        if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
+        const products = await response.json();
+        productList.innerHTML = '';
+        if (products.length === 0) {
+          productList.innerHTML = '<li>No se encontraron productos.</li>';
+          return;
         }
+        products.forEach(product => {
+          const li = document.createElement('li');
+          li.textContent = `ID: ${product.id}, Nombre: ${product.nombre}, Marca: ${product.marca}, Precio: $${product.precioActual.toLocaleString('es-CO')}, Stock: ${product.cantidadDisponible}`;
+          productList.appendChild(li);
+        });
+      } catch (error) {
+        productList.innerHTML = `<li class="response error">Error al cargar productos: ${error.message}</li>`;
+      }
     }
 
-    // --- Función genérica para manejar respuestas de la API ---
-    async function handleApiResponse(response, responseDiv, isOrderResponse = false) {
-        const contentType = response.headers.get('content-type');
-        let responseBody;
-
-        try {
-            // Intenta parsear JSON solo si la respuesta tiene content-type JSON
-            if (contentType && contentType.includes('application/json')) {
-                responseBody = await response.json();
-            } else {
-                responseBody = await response.text() || (response.ok ? "Operación exitosa sin contenido." : "Error sin contenido detallado.");
-            }
-        } catch (error) {
-             console.error('Error al leer cuerpo de respuesta:', error);
-             responseBody = `Error al leer cuerpo de respuesta: ${error.message}`;
-        }
-
-
-        if (response.ok) { // Status code 2xx
-            responseDiv.className = 'response success';
-            let successMessage = 'Operación exitosa ✅ Estado: ' + response.status + '\n';
-            if (responseBody && typeof responseBody === 'object') {
-                 successMessage += 'Respuesta del servidor:\n' + JSON.stringify(responseBody, null, 2);
-            } else if (responseBody) {
-                 successMessage += 'Respuesta del servidor:\n' + responseBody;
-            }
-            responseDiv.textContent = successMessage;
-
-            // Si es una respuesta de pedido y está PENDIENTE, configurar la sección de pago
-            if (isOrderResponse && responseBody && responseBody.estadoFactura === 'PENDIENTE') {
-                currentFacturaIdForPayment = responseBody.idFactura;
-                setupPaymentSection(responseBody.idFactura);
-            }
-             // Recargar productos y facturas si la operación pudo afectar el stock/facturas
-             if (responseDiv.id === 'inventoryResponse' || isOrderResponse || responseDiv.id === 'paymentResponse' || responseDiv.id === 'facturaResponse') {
-                 loadProducts();
-                 loadFacturas(); // <--- Añadido para asegurar que las facturas se actualicen
-             }
-
-
-        } else { // Status code 4xx o 5xx
-            responseDiv.className = 'response error';
-            let errorMessage = 'Error en la operación ❌ Estado: ' + response.status + '\n';
-             if (responseBody && typeof responseBody === 'object') {
-                  errorMessage += 'Detalle del error:\n' + JSON.stringify(responseBody, null, 2);
-             } else if (responseBody) {
-                  errorMessage += 'Detalle del error:\n' + responseBody;
-             }
-             responseDiv.textContent = errorMessage;
-             // Si falla el pedido, ocultar sección de pago
-             if (isOrderResponse) {
-                document.getElementById('paymentSection').style.display = 'none';
-                if (paymentIntervalId) clearInterval(paymentIntervalId);
-             }
-        }
-    }
-
-    // Configura la sección de pago
-    function setupPaymentSection(facturaId) {
-        const paymentSectionDiv = document.getElementById('paymentSection');
-        paymentSectionDiv.className = 'pending-payment'; // Reset class
-        document.getElementById('paymentFacturaId').textContent = facturaId;
-        document.getElementById('paymentFacturaEstado').textContent = 'PENDIENTE';
-        document.getElementById('paymentTimer').textContent = '5'; // Timer del frontend para el usuario
-        document.getElementById('paymentResponse').textContent = '';
-        document.getElementById('paymentResponse').className = 'response';
-        document.getElementById('payButton').disabled = false;
-        paymentSectionDiv.style.display = 'block';
-
-        let timeLeft = 5; // Debe coincidir con TIEMPO_ESPERA_PAGO_SEGUNDOS en PagoService
-        if (paymentIntervalId) clearInterval(paymentIntervalId);
-
-        paymentIntervalId = setInterval(() => {
-            timeLeft--;
-            document.getElementById('paymentTimer').textContent = timeLeft >= 0 ? timeLeft : 0; // Evitar números negativos
-            if (timeLeft <= 0) {
-                clearInterval(paymentIntervalId);
-                document.getElementById('paymentTimer').textContent = 'Expirado';
-                document.getElementById('payButton').disabled = true;
-
-                // El backend maneja la cancelación. El usuario verá el cambio al recargar.
-                const paymentResponseDiv = document.getElementById('paymentResponse');
-                paymentResponseDiv.className = 'response error';
-                paymentResponseDiv.textContent = 'Tiempo de pago expirado. El backend cancelará la factura y revertirá el stock. Recarga las facturas y productos para verificar.';
-                document.getElementById('paymentSection').className = 'payment-cancelled';
-                document.getElementById('paymentFacturaEstado').textContent = 'CANCELADA (Esperando confirmación del backend)';
-                loadProducts(); // Recargar productos para ver el stock revertido
-                loadFacturas(); // Recargar facturas para ver el estado de la factura
-            }
-        }, 1000);
-    }
-
-    // --- Función para cargar y mostrar todas las facturas (nueva sección) ---
     async function loadFacturas() {
-        const facturasListDiv = document.getElementById('facturasList');
-        facturasListDiv.innerHTML = '<p>Cargando facturas... 🔄</p>';
-        const facturaResponseDiv = document.getElementById('facturaResponse');
-        facturaResponseDiv.textContent = ''; // Limpiar mensajes anteriores
-
-        try {
-            // Asumo que tienes un endpoint GET /api/facturas para listar todas las facturas
-            const response = await fetch(`${API_BASE_URL}/api/facturas`);
-            if (!response.ok) throw new Error(`Error HTTP: ${response.status} ${response.statusText || ''}`);
-            const facturas = await response.json();
-
-            facturasListDiv.innerHTML = '';
-
-            if (facturas.length === 0) {
-                facturasListDiv.innerHTML = '<p>No hay facturas registradas.</p>';
-                return;
-            }
-
-            let html = '<table><thead><tr><th>ID Factura</th><th>Fecha</th><th>Valor Total</th><th>Método Pago</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>';
-            facturas.forEach(factura => {
-                html += `
-                    <tr>
-                        <td>${factura.id}</td>
-                        <td>${new Date(factura.fecha).toLocaleDateString()}</td>
-                        <td>$${factura.valorTotalFactura.toLocaleString('es-CO')}</td>
-                        <td>${factura.metodoPago}</td>
-                        <td><span class="status-${factura.estadoFactura.toLowerCase()}">${factura.estadoFactura}</span></td>
-                        <td>
-                `;
-                // Botón Pagar solo si la factura está PENDIENTE
-                if (factura.estadoFactura === 'PENDIENTE') {
-                    html += `<button class="pay-button" data-id-factura="${factura.id}">Pagar Ahora</button>`;
-                }
-                html += `
-                        </td>
-                    </tr>
-                `;
-            });
-            html += '</tbody></table>';
-            facturasListDiv.innerHTML = html;
-
-            // Añadir event listeners a los botones "Pagar" de la lista
-            document.querySelectorAll('#facturasList .pay-button').forEach(button => {
-                button.addEventListener('click', handlePayButtonClickFromList);
-            });
-
-        } catch (error) {
-            console.error('Error al cargar facturas:', error);
-            facturasListDiv.innerHTML = `<p class="response error">Error al cargar facturas: ${error.message}</p>`;
+      const facturasListDiv = document.getElementById('facturasList');
+      facturasListDiv.innerHTML = '<p>Cargando facturas... 🔄</p>';
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/facturas`);
+        if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
+        const facturas = await response.json();
+        if (facturas.length === 0) {
+          facturasListDiv.innerHTML = '<p>No hay facturas registradas.</p>';
+          return;
         }
+        let html = '<table><thead><tr><th>ID</th><th>Fecha</th><th>Total</th><th>Método</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>';
+        facturas.forEach(f => {
+          html += `<tr>
+            <td>${f.id}</td>
+            <td>${new Date(f.fecha).toLocaleDateString()}</td>
+            <td>$${f.valorTotalFactura.toLocaleString('es-CO')}</td>
+            <td>${f.metodoPago}</td>
+            <td><span class="status-${f.estadoFactura.toLowerCase()}">${f.estadoFactura}</span></td>
+            <td>-</td>
+
+          </tr>`;
+        });
+        html += '</tbody></table>';
+        facturasListDiv.innerHTML = html;
+        document.querySelectorAll('.pay-button').forEach(btn => {
+          btn.addEventListener('click', handlePayButtonClickFromList);
+        });
+      } catch (error) {
+        facturasListDiv.innerHTML = `<p class="response error">Error al cargar facturas: ${error.message}</p>`;
+      }
     }
 
-    // Nueva función para manejar clic en el botón "Pagar" desde la lista de facturas
     async function handlePayButtonClickFromList(event) {
-        const idFactura = event.target.dataset.idFactura;
-        currentFacturaIdForPayment = idFactura; // Actualizar el ID de factura para la sección de pago principal si se usa
-        event.target.disabled = true; // Deshabilitar el botón de la lista mientras se procesa
-
-        const paymentResponseDiv = document.getElementById('paymentResponse'); // Usar la respuesta general de pago
-        paymentResponseDiv.textContent = `Procesando pago para factura ${idFactura}... ⏳`;
-        paymentResponseDiv.className = 'response';
-
-        if (paymentIntervalId) clearInterval(paymentIntervalId); // Detener el contador de timeout si ya está corriendo
-
-        try {
-            const response = await fetch(`${API_BASE_URL}/api/pagos/factura/${idFactura}/pagar`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' }
-            });
-
-            const responseBody = await response.json(); // Leer el cuerpo, esperamos JSON
-
-            if(response.ok) {
-                paymentResponseDiv.className = 'response success';
-                paymentResponseDiv.textContent = 'Pago exitoso ✅\n' + JSON.stringify(responseBody, null, 2);
-                document.getElementById('paymentSection').className = 'payment-paid'; // Visual feedback
-            } else {
-                 paymentResponseDiv.className = 'response error';
-                 paymentResponseDiv.textContent = 'Error en el pago ❌ Estado: ' + response.status + '\n' + JSON.stringify(responseBody, null, 2);
-                 document.getElementById('paymentSection').className = 'payment-cancelled'; // Visual feedback
-            }
-            loadFacturas(); // Recargar la lista de facturas para ver el estado actualizado
-            loadProducts(); // Recargar productos por si el stock se revirtió (en caso de fallo o timeout)
-            event.target.disabled = false; // Re-habilitar si falla el pago
-
-            // Ocultar la sección de pago principal si se procesó desde la lista, para evitar duplicidad
-            document.getElementById('paymentSection').style.display = 'none';
-
-        } catch (error) {
-            console.error('Error al procesar el pago desde la lista:', error);
-            paymentResponseDiv.className = 'response error';
-            paymentResponseDiv.textContent = 'Error de conexión al procesar el pago: ' + error.message;
-            event.target.disabled = false;
+      const idFactura = event.target.dataset.idFactura;
+      currentFacturaIdForPayment = idFactura;
+      event.target.disabled = true;
+      const paymentResponseDiv = document.getElementById('paymentResponse');
+      paymentResponseDiv.textContent = `Procesando pago para factura ${idFactura}... ⏳`;
+      paymentResponseDiv.className = 'response';
+      if (paymentIntervalId) clearInterval(paymentIntervalId);
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/pagos/factura/${idFactura}/pagar`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' }
+        });
+        const responseBody = await response.json();
+        if (response.ok) {
+          paymentResponseDiv.className = 'response success';
+          paymentResponseDiv.textContent = 'Pago exitoso ✅\n' + JSON.stringify(responseBody, null, 2);
+          document.getElementById('paymentSection').className = 'payment-paid';
+        } else {
+          paymentResponseDiv.className = 'response error';
+          paymentResponseDiv.textContent = 'Error en el pago ❌\n' + JSON.stringify(responseBody, null, 2);
+          document.getElementById('paymentSection').className = 'payment-cancelled';
         }
-    });
-
-
-    // Event listener para el formulario de Entrada de Inventario (sin cambios relevantes en la lógica)
-    document.getElementById('inventoryEntryForm').addEventListener('submit', async function(event) {
-        event.preventDefault();
-        const inventoryData = {
-            idProducto: parseInt(document.getElementById('inventory_idProducto').value),
-            cantidad: parseFloat(document.getElementById('inventory_cantidad').value),
-            idProveedor: parseInt(document.getElementById('inventory_idProveedor').value),
-            referencia: document.getElementById('inventory_referencia').value,
-            idUsuarioRegistro: parseInt(document.getElementById('inventory_idUsuarioRegistro').value)
-        };
-        const responseDiv = document.getElementById('inventoryResponse');
-        responseDiv.textContent = 'Enviando solicitud... ⏳';
-        responseDiv.className = 'response';
-        try {
-            const response = await fetch(`${API_BASE_URL}/api/inventario/entrada`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(inventoryData)
-            });
-            await handleApiResponse(response, responseDiv);
-        } catch (error) {
-            console.error('Error al enviar solicitud de entrada:', error);
-            responseDiv.className = 'response error';
-            responseDiv.textContent = 'Error al conectar con la API (Entrada): ' + error.message;
-        }
-    });
-
-    // Event listener para el formulario de Realizar Pedido
-    document.getElementById('placeOrderForm').addEventListener('submit', async function(event) {
-        event.preventDefault();
-        document.getElementById('paymentSection').style.display = 'none'; // Ocultar sección de pago anterior
-        if (paymentIntervalId) clearInterval(paymentIntervalId); // Limpiar cualquier timer anterior
-
-        const orderData = {
-            idCliente: parseInt(document.getElementById('order_idCliente').value),
-            metodoPago: document.getElementById('order_metodoPago').value,
-            items: [{ // Por ahora, sigue siendo 1 ítem.
-                idProducto: parseInt(document.getElementById('order_idProducto').value),
-                cantidad: parseInt(document.getElementById('order_cantidad').value)
-            }]
-        };
-        const responseDiv = document.getElementById('orderResponse');
-        responseDiv.textContent = 'Enviando solicitud... ⏳';
-        responseDiv.className = 'response';
-        try {
-            const response = await fetch(`${API_BASE_URL}/api/pedidos`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(orderData)
-            });
-            // Pasar 'true' para indicar que es una respuesta de pedido
-            await handleApiResponse(response, responseDiv, true);
-        } catch (error) {
-            console.error('Error al enviar solicitud de pedido:', error);
-            responseDiv.className = 'response error';
-            responseDiv.textContent = 'Error al conectar con la API (Pedido): ' + error.message;
-            document.getElementById('paymentSection').style.display = 'none';
-        }
-    });
-
-    // Event listener para el botón de Pagar (en la sección de "Proceso de Pago")
-    document.getElementById('payButton').addEventListener('click', async function() {
-        if (!currentFacturaIdForPayment) {
-            alert("Error: No hay ID de factura para el pago.");
-            return;
-        }
-        this.disabled = true; // Deshabilitar botón para evitar múltiples clicks
-
-        const paymentResponseDiv = document.getElementById('paymentResponse');
-        paymentResponseDiv.textContent = 'Procesando pago... ⏳';
-        paymentResponseDiv.className = 'response';
-
-        if (paymentIntervalId) clearInterval(paymentIntervalId); // Detener el contador de timeout
-
-        try {
-            // Llama al nuevo endpoint del PagoController
-            const response = await fetch(`${API_BASE_URL}/api/pagos/factura/${currentFacturaIdForPayment}/pagar`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' }
-            });
-
-            const responseBody = await response.json(); // Leer el cuerpo, esperamos JSON
-
-            if(response.ok) {
-                paymentResponseDiv.className = 'response success';
-                paymentResponseDiv.textContent = 'Pago exitoso ✅\n' + JSON.stringify(responseBody, null, 2);
-                document.getElementById('paymentFacturaEstado').textContent = responseBody.estadoFactura; // PAGADA
-                document.getElementById('paymentTimer').textContent = 'Completado';
-                document.getElementById('paymentSection').className = 'payment-paid'; // Cambiar color a verde
-            } else {
-                 paymentResponseDiv.className = 'response error';
-                 paymentResponseDiv.textContent = 'Error en el pago ❌ Estado: ' + response.status + '\n' + JSON.stringify(responseBody, null, 2);
-                 document.getElementById('paymentFacturaEstado').textContent = "Error/Rechazado";
-                 this.disabled = false; // Re-habilitar si falla el pago para reintentar (si aplica)
-                 document.getElementById('paymentSection').className = 'payment-cancelled'; // Cambiar color a rojo
-            }
-            loadProducts(); // Recargar productos para ver el stock
-            loadFacturas(); // Recargar facturas para ver el estado
-        } catch (error) {
-            console.error('Error al procesar el pago:', error);
-            paymentResponseDiv.className = 'response error';
-            paymentResponseDiv.textContent = 'Error de conexión al procesar el pago: ' + error.message;
-            this.disabled = false;
-            document.getElementById('paymentFacturaEstado').textContent = "Error de conexión";
-             document.getElementById('paymentSection').className = 'payment-cancelled';
-        }
-    });
-
-
-    // --- Cargar productos y facturas al cargar la página ---
-    window.addEventListener('load', () => {
+        loadFacturas();
         loadProducts();
-        loadFacturas(); // <--- Añadido para cargar las facturas al inicio
+        document.getElementById('paymentSection').style.display = 'none';
+      } catch (error) {
+        paymentResponseDiv.className = 'response error';
+        paymentResponseDiv.textContent = 'Error de conexión: ' + error.message;
+        event.target.disabled = false;
+      }
+    }
+
+    async function handleApiResponse(response, responseDiv, isOrderResponse = false) {
+  const contentType = response.headers.get('content-type');
+  let responseBody;
+  try {
+    if (contentType && contentType.includes('application/json')) {
+      responseBody = await response.json();
+    } else {
+      responseBody = await response.text();
+    }
+  } catch (error) {
+    responseBody = `Error al leer respuesta: ${error.message}`;
+  }
+
+  if (response.ok) {
+    responseDiv.className = 'response success';
+    responseDiv.innerHTML = '<strong>✅ Operación exitosa</strong><pre>' + JSON.stringify(responseBody, null, 2) + '</pre>';
+
+    if (isOrderResponse && responseBody.estadoFactura === 'PENDIENTE') {
+      currentFacturaIdForPayment = responseBody.idFactura;
+      setupPaymentSection(currentFacturaIdForPayment);
+    }
+    loadProducts();
+    loadFacturas();
+  } else {
+    responseDiv.className = 'response error';
+    responseDiv.textContent = '❌ Error\n' + JSON.stringify(responseBody, null, 2);
+    if (isOrderResponse) {
+      document.getElementById('paymentSection').style.display = 'none';
+      if (paymentIntervalId) clearInterval(paymentIntervalId);
+    }
+  }
+}
+
+function setupPaymentSection(facturaId, fecha) {
+  const section = document.getElementById('paymentSection');
+  section.className = 'pending-payment';
+  section.style.display = 'block';
+  document.getElementById('paymentFacturaId').textContent = facturaId;
+  document.getElementById('paymentFacturaEstado').textContent = 'PENDIENTE';
+  document.getElementById('paymentTimer').textContent = '30';
+  document.getElementById('payButton').disabled = false;
+  document.getElementById('paymentResponse').textContent = '';
+  let timeLeft = 30;
+  if (paymentIntervalId) clearInterval(paymentIntervalId);
+  paymentIntervalId = setInterval(() => {
+    timeLeft--;
+    document.getElementById('paymentTimer').textContent = timeLeft >= 0 ? timeLeft : 0;
+    if (timeLeft <= 0) {
+      clearInterval(paymentIntervalId);
+      document.getElementById('payButton').disabled = true;
+      document.getElementById('paymentFacturaEstado').textContent = 'CANCELADA (esperando backend)';
+      document.getElementById('paymentSection').className = 'payment-cancelled';
+      document.getElementById('paymentResponse').className = 'response error';
+      document.getElementById('paymentResponse').textContent = 'Tiempo expirado. El backend cancelará la factura y revertirá el stock.';
+      loadProducts();
+      loadFacturas();
+    }
+  }, 1000);
+}
+
+document.getElementById('inventoryEntryForm').addEventListener('submit', async function (event) {
+  event.preventDefault();
+  const data = {
+    idProducto: parseInt(document.getElementById('inventory_idProducto').value),
+    cantidad: parseFloat(document.getElementById('inventory_cantidad').value),
+    idProveedor: parseInt(document.getElementById('inventory_idProveedor').value),
+    referencia: document.getElementById('inventory_referencia').value,
+    idUsuarioRegistro: parseInt(document.getElementById('inventory_idUsuarioRegistro').value)
+  };
+  const responseDiv = document.getElementById('inventoryResponse');
+  responseDiv.textContent = 'Enviando solicitud...';
+  responseDiv.className = 'response';
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/inventario/entrada`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
     });
+    await handleApiResponse(response, responseDiv);
+  } catch (error) {
+    responseDiv.className = 'response error';
+    responseDiv.textContent = 'Error de conexión: ' + error.message;
+  }
+});
 
+document.getElementById('placeOrderForm').addEventListener('submit', async function (event) {
+  event.preventDefault();
+  document.getElementById('paymentSection').style.display = 'none';
+  if (paymentIntervalId) clearInterval(paymentIntervalId);
+  const items = Array.from(document.querySelectorAll('.order-item')).map(item => ({
+    idProducto: parseInt(item.querySelector('.order_idProducto').value),
+    cantidad: parseInt(item.querySelector('.order_cantidad').value)
+  }));
+  const data = {
+    idCliente: parseInt(document.getElementById('order_idCliente').value),
+    metodoPago: document.getElementById('order_metodoPago').value,
+    items
+  };
+  const responseDiv = document.getElementById('orderResponse');
+  responseDiv.textContent = 'Enviando pedido...';
+  responseDiv.className = 'response';
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/pedidos`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    await handleApiResponse(response, responseDiv, true);
+  } catch (error) {
+    responseDiv.className = 'response error';
+    responseDiv.textContent = 'Error de conexión: ' + error.message;
+  }
+});
+
+document.getElementById('payButton').addEventListener('click', async function () {
+  if (!currentFacturaIdForPayment) return;
+  this.disabled = true;
+  if (paymentIntervalId) clearInterval(paymentIntervalId);
+  const responseDiv = document.getElementById('paymentResponse');
+  responseDiv.textContent = 'Procesando pago...';
+  responseDiv.className = 'response';
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/pagos/factura/${currentFacturaIdForPayment}/pagar`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' }
+    });
+    const responseBody = await response.json();
+    if (response.ok) {
+      responseDiv.className = 'response success';
+      responseDiv.textContent = 'Pago exitoso ✅\n' + JSON.stringify(responseBody, null, 2);
+      document.getElementById('paymentFacturaEstado').textContent = responseBody.estadoFactura;
+      document.getElementById('paymentTimer').textContent = 'Completado';
+      document.getElementById('paymentSection').className = 'payment-paid';
+    } else {
+      responseDiv.className = 'response error';
+      responseDiv.textContent = 'Error en el pago ❌\n' + JSON.stringify(responseBody, null, 2);
+      this.disabled = false;
+      document.getElementById('paymentFacturaEstado').textContent = 'Error';
+      document.getElementById('paymentSection').className = 'payment-cancelled';
+    }
+    loadProducts();
+    loadFacturas();
+  } catch (error) {
+    responseDiv.className = 'response error';
+    responseDiv.textContent = 'Error de conexión: ' + error.message;
+    this.disabled = false;
+  }
+});
+
+window.addEventListener('load', () => {
+  loadProducts();
+  loadFacturas();
+});
 </script>
-
 </body>
 </html>

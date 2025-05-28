@@ -30,6 +30,7 @@ import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -118,7 +119,7 @@ public class PedidoService {
         }
 
         Factura factura = new Factura(
-                LocalDate.now(),
+                LocalDateTime.now(),
                 cliente,
                 valorTotalCalculado,
                 datosPedido.metodoPago(),
@@ -193,7 +194,7 @@ public class PedidoService {
 
         return new DatosRespuestaPedido(
                 facturaGuardada.getId(),
-                facturaGuardada.getFecha().atStartOfDay(),
+                facturaGuardada.getFecha(),
                 facturaGuardada.getValorTotalFactura(),
                 facturaGuardada.getMetodoPago(),
                 facturaGuardada.getEstadoFactura().toString(),

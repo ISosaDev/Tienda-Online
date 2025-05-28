@@ -33,7 +33,7 @@ public class PagoController {
             // para mantener consistencia en el frontend si lo deseas.
             DatosRespuestaPedido respuestaPago = new DatosRespuestaPedido(
                     facturaPagada.getId(),
-                    facturaPagada.getFecha().atStartOfDay(), // Ajusta si usas LocalDateTime
+                    facturaPagada.getFecha(), // Ajusta si usas LocalDateTime
                     facturaPagada.getValorTotalFactura(),
                     facturaPagada.getMetodoPago(),
                     facturaPagada.getEstadoFactura().toString(), // Enum a String
