@@ -21,6 +21,7 @@ import com.condorltda.tiendaonline.domain.producto.ProductoRepository;
 import com.condorltda.tiendaonline.domain.usuario.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionSynchronizationAdapter;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
@@ -61,7 +62,7 @@ public class PedidoService {
     @Autowired
     private PagoService pagoService; // <--- ¡INYECCIÓN DE DEPENDENCIA!
 
-    @Transactional
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     public DatosRespuestaPedido procesarPedido(DatosRegistroPedido datosPedido) {
 
         logger.info("BEGIN Transaction - Procesando pedido para cliente ID: {}", datosPedido.idCliente());
